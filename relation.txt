@@ -1,0 +1,32 @@
+student
+- id: int, auto increment
+- name: string(255)
+- dob: date
+- mobile: string(255)
+- address: string(255)
+- avatar: string(255)
+- created_at
+- updated_at
+- deleted_at
+teacher
+- id: int, auto increment
+- name: string(255)
+- dob: date
+- mobile: string(255)
+- address: string(255)
+- avatar: string(255)
+class
+- id: int, auto increment
+- name: string(255)
+subject
+- id: int, auto increment
+- name: string(255)
+account
+- id: int, auto increment
+- username: string(50)
+- password: string(50)
+- role
+
+Student-Classroom: many-to-many
+Teach-Classroom: many-to-many
+Student-Subject: 
