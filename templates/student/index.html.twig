@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello StudentController!{% endblock %}
+{% block title %}List of Student{% endblock %}
 
 {% block body %}
 
@@ -8,10 +8,6 @@
         <h1>
             List of Student
         </h1>
-        <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">List of Table</li>
-        </ol>
     </section>
 
     <section class="content">
@@ -41,10 +37,10 @@
                                 <td>{{ student.dob |date('d-m-Y') }}</td>
                                 <td>{{ student.mobile }}</td>
                                 <td>{{ student.address }}</td>
-                                <td><img src="{{ asset('images/'~student.avatar) }}" alt="Student Image" width="100" height="100"></td>
+                                <td><a href="{{ path('student_detail', {'id': student.id}) }}"><img src="{{ asset('images/'~student.avatar) }}" alt="Student Image" width="100" height="100"></a></td>
                                 <td>
-                                    <a href="#" class="btn btn-warning">Edit</a>
-                                    <a href="#" class="btn btn-danger">Delete</a>
+                                    <a href="{{ path('student_edit', {'id': student.id}) }}" class="btn btn-warning">Edit</a>
+                                    <a href="{{ path('student_delete', {'id': student.id}) }}" class="btn btn-danger" onclick="return confirm('Do you want to delete this student?')">Delete</a>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -68,7 +64,7 @@
     </section>
     {% block javascripts %}
         <script>
-            $(function () {
+            $(document).ready(function() {
                 $('#example1').DataTable()
             })
         </script>

@@ -120,8 +120,8 @@
                             </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="#"><i class="fa fa-circle-o"></i> List of Student</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Create Student</a></li>
+                        <li><a href="{{ path('student_index') }}"><i class="fa fa-circle-o"></i> List of Student</a></li>
+                        <li><a href="{{ path('student_create') }}"><i class="fa fa-circle-o"></i> Create Student</a></li>
                     </ul>
                 </li>
                 {#            <li class="treeview">#}
@@ -282,15 +282,25 @@
     </aside>
 
     <div class="content-wrapper">
+        <div id="message">
+            {% block flash %}
+                {% for flash in app.flashes("Error") %}
+                    <p class="alert alert-danger">{{ flash }}</p>
+                {% endfor %}
+                {% for flash in app.flashes("Success") %}
+                    <p class="alert alert-success">{{ flash }}</p>
+                {% endfor %}
+            {% endblock %}
+        </div>
         {% block body %}
         {% endblock %}
     </div>
     <footer class="main-footer">
-        <div class="pull-right hidden-xs">
-            <b>Version</b> 2.4.18
-        </div>
-        <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE</a>.</strong> All rights
-        reserved.
+{#        <div class="pull-right hidden-xs">#}
+{#            <b>Version</b> 2.4.18#}
+{#        </div>#}
+{#        <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE</a>.</strong> All rights#}
+{#        reserved.#}
     </footer>
 </div>
 
@@ -308,6 +318,13 @@
 <script src="{{ asset('dist/js/adminlte.js') }}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('dist/js/demo.js') }}"></script>
+<script>
+    $(document).ready(function() {
+        setTimeout(function(){
+            $("#message").slideUp(500);
+        },3000);
+    })
+</script>
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
 {% endblock %}
