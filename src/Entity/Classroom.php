@@ -18,6 +18,9 @@ class Classroom
     #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
+		#[ORM\Column(type: 'string', length: 50)]
+		private $class_code;
+
     #[ORM\ManyToMany(targetEntity: Student::class, inversedBy: 'classrooms')]
     private $students;
 
@@ -43,6 +46,18 @@ class Classroom
 
         return $this;
     }
+
+		public function getClassCode(): ?string
+		{
+			return $this->class_code;
+		}
+
+		public function setClassCode(string $class_code): self
+		{
+			$this->class_code = $class_code;
+	
+			return $this;
+		}
 
     /**
      * @return Collection|Student[]

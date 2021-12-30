@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Student;
+use App\Form\StudentType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +28,7 @@ class StudentController extends AbstractController
     }
 
 		/**
-		 * @Route ("/students/{id}", name="student_detail")
+		 * @Route ("/students/detail/{id}", name="student_detail")
 		 */
 		public function detail($id): Response
 		{
@@ -47,7 +48,21 @@ class StudentController extends AbstractController
 		 */
 		public function create(Request $request): Response
 		{
-			return $this->render('student/create.html.twig');
+			$student = new Student();
+			$form = $this->createForm(StudentType::class, $student);
+			$form->handleRequest($request);
+
+			if ($form->isSubmitted() && $form->isValid()){
+				$manager  = $this->doctrine->getManager();
+				$manager->persist($student);
+				$manager->flush();
+				$this->addFlash('Success', "Add Student Succeeded");
+				return $this->redirectToRoute('student_index');
+			}
+			return $this->renderForm('student/create.html.twig',
+				[
+						'form' => $form
+				]);
 		}
 
 		/**
@@ -61,9 +76,20 @@ class StudentController extends AbstractController
 				return $this->redirectToRoute("student_index");
 			}
 
-			return $this->render('student/edit.html.twig', [
-					"student" => $student
-			]);
+			$form = $this->createForm(StudentType::class, $student);
+			$form->handleRequest($request);
+
+			if ($form->isSubmitted() && $form->isValid()){
+				$manager  = $this->doctrine->getManager();
+				$manager->persist($student);
+				$manager->flush();
+				$this->addFlash('Success', "Edit Student Succeeded");
+				return $this->redirectToRoute('student_index');
+			}
+			return $this->renderForm('student/edit.html.twig',
+					[
+							'form' => $form
+					]);
 		}
 
 		/**

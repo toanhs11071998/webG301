@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add Student{% endblock %}
+
+{% block body %}
+
+    <section class="content-header">
+        <h1>
+            Add Student
+        </h1>
+    </section>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-info">
+                    <div class="box-header">
+                        <h3>Add Student for Class: AAA</h3>
+                        <p>si so hien tai: 10 hsinh</p>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="box box-primary">
+
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="box box-success"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% block javascripts %}
+        <script>
+            $(document).ready(function() {
+                $('#example1').DataTable()
+            })
+        </script>
+    {% endblock %}
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create Classroom{% endblock %}
+
+{% block body %}
+
+    <section class="content-header">
+        <h1>
+            Create Classroom
+        </h1>
+    </section>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-9">
+                <div class="box box-info">
+                    <div class="box-body">
+                        {{ form_start (form) }}
+                        <!-- text input -->
+                        <div class="form-group">
+                            <label>Classroom Name</label>
+                            {{ form_widget (form.name, {
+                                'attr' : {'class' : 'form-control'}
+                            })
+                            }}
+                        </div>
+                        <div class="form-group">
+                            <label>Classroom Code</label>
+                            {{ form_widget (form.class_code, {
+                                'attr' : {'class' : 'form-control'}
+                            })
+                            }}
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                        {{ form_end (form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% block javascripts %}
+
+    {% endblock %}
+{% endblock %}
