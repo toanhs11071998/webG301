@@ -33,13 +33,9 @@ class Student
     #[ORM\ManyToMany(targetEntity: Classroom::class, mappedBy: 'students')]
     private $classrooms;
 
-    #[ORM\ManyToMany(targetEntity: Subject::class, mappedBy: 'students')]
-    private $subjects;
-
     public function __construct()
     {
         $this->classrooms = new ArrayCollection();
-        $this->subjects = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -129,33 +125,6 @@ class Student
     {
         if ($this->classrooms->removeElement($classroom)) {
             $classroom->removeStudent($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Subject[]
-     */
-    public function getSubjects(): Collection
-    {
-        return $this->subjects;
-    }
-
-    public function addSubject(Subject $subject): self
-    {
-        if (!$this->subjects->contains($subject)) {
-            $this->subjects[] = $subject;
-            $subject->addStudent($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSubject(Subject $subject): self
-    {
-        if ($this->subjects->removeElement($subject)) {
-            $subject->removeStudent($this);
         }
 
         return $this;
