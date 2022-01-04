@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Classroom;
+use App\Entity\Student;
 use App\Form\ClassroomType;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -95,12 +97,72 @@ class ClassroomController extends AbstractController
 	}
 
 	/**
-	 * @Route ("/classroom/add_student/{id}", name="classroom_addStudent")
+	 * @Route ("/classroom/{id}", name="classroom_addStudent")
 	 */
 	public function addStudent($id): Response
 	{
+		$students = $this->doctrine->getRepository(Student::class)->findAll();
 		$class_student = $this->doctrine->getRepository(Classroom::class)->find($id);
-		dd($class_student);
-		return $this->render('classroom/add_student.html.twig');
+		if (!$class_student) {
+			$this->addFlash("Error", "Classroom Not Found");
+			return $this->redirectToRoute("classroom_index");
+		}
+
+		$signed_id = [];
+		foreach ($class_student->getStudents()->toArray() as $student){
+			array_push($signed_id, $student->getId());
+		}
+		return $this->render('classroom/add_student.html.twig',
+		[
+				'students' => $students,
+				'class_student' => $class_student,
+				'signed_id' => $signed_id,
+		]);
+	}
+
+	/**
+	 * @Route ("/classroom/{class_id}/sign_student/{student_id}", name="classroom_signStudent")
+	 */
+	public function signStudent($class_id, $student_id): Response
+	{
+		$student = $this->doctrine->getRepository(Student::class)->find($student_id);
+		$class = $this->doctrine->getRepository(Classroom::class)->find($class_id);
+
+		$manager = $this->doctrine->getManager();
+		$class_student = $class->addStudent($student);
+
+		if ($class_student){
+			$manager->persist($class_student);
+			$manager->flush();
+			$this->addFlash("Success", "Sign student succeed");
+		}else {
+			$this->addFlash("Error", "Sign student failed");
+		}
+		return $this->redirectToRoute('classroom_addStudent', [
+				'id' => $class_id
+		]);
+	}
+
+	/**
+	 * @Route ("/classroom/{class_id}/remove_student/{student_id}", name="classroom_removeStudent")
+	 */
+	public function removeStudent($class_id, $student_id): Response
+	{
+		$student = $this->doctrine->getRepository(Student::class)->find($student_id);
+		$class = $this->doctrine->getRepository(Classroom::class)->find($class_id);
+
+		$manager = $this->doctrine->getManager();
+		$class_student = $class->removeStudent($student);
+
+		if ($class_student){
+			$manager->persist($class_student);
+			$manager->flush();
+			$this->addFlash("Success", "Remove student succeed");
+		}else {
+			$this->addFlash("Error", "Remove student failed");
+		}
+		return $this->redirectToRoute('classroom_addStudent', [
+				'id' => $class_id
+		]);
 	}
 }

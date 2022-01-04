@@ -45,7 +45,29 @@
             <!-- /.col -->
             <div class="col-md-9">
                 <div class="box box-info">
-
+                    <div class="box-header">
+                        <h4>List of classrooms</h4>
+                    </div>
+                    <div class="box-body">
+                        <div class="table-responsive">
+                            <table class="table no-margin">
+                                <thead>
+                                    <tr>
+                                        <th>ClassCode</th>
+                                        <th>Quantity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for classroom in student.classrooms %}
+                                    <tr>
+                                        <td>{{ classroom.classcode }}</td>
+                                        <td>{{ classroom.students|length }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- /.col -->
