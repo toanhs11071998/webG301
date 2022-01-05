@@ -5,8 +5,8 @@ namespace App\Controller;
 use App\Entity\Classroom;
 use App\Entity\Student;
 use App\Form\ClassroomType;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,6 +31,7 @@ class ClassroomController extends AbstractController
 	}
 
 	/**
+	 * @IsGranted("ROLE_ADMIN")
 	 * @Route ("/classroom/create", name="classroom_create")
 	 */
 	public function create(Request $request): Response
@@ -53,6 +54,7 @@ class ClassroomController extends AbstractController
 	}
 
 	/**
+	 * @IsGranted("ROLE_ADMIN")
 	 * @Route ("/classroom/edit/{id}", name="classroom_edit")
 	 */
 	public function edit(Request $request, $id): \Symfony\Component\HttpFoundation\RedirectResponse|Response
@@ -80,6 +82,7 @@ class ClassroomController extends AbstractController
 	}
 
 	/**
+	 * @IsGranted("ROLE_ADMIN")
 	 * @Route ("/classroom/delete/{id}", name="classroom_delete")
 	 */
 	public function delete($id): \Symfony\Component\HttpFoundation\RedirectResponse
@@ -97,6 +100,7 @@ class ClassroomController extends AbstractController
 	}
 
 	/**
+	 * @IsGranted("ROLE_ADMIN")
 	 * @Route ("/classroom/{id}", name="classroom_addStudent")
 	 */
 	public function addStudent($id): Response
@@ -121,6 +125,7 @@ class ClassroomController extends AbstractController
 	}
 
 	/**
+	 * @IsGranted("ROLE_ADMIN")
 	 * @Route ("/classroom/{class_id}/sign_student/{student_id}", name="classroom_signStudent")
 	 */
 	public function signStudent($class_id, $student_id): Response
@@ -144,6 +149,7 @@ class ClassroomController extends AbstractController
 	}
 
 	/**
+	 * @IsGranted("ROLE_ADMIN")
 	 * @Route ("/classroom/{class_id}/remove_student/{student_id}", name="classroom_removeStudent")
 	 */
 	public function removeStudent($class_id, $student_id): Response

@@ -31,7 +31,7 @@ class StudentType extends AbstractType
 								'required' => true,
 								'widget' => 'single_text'
 						])
-            ->add('mobile', NumberType::class,
+            ->add('mobile', TextType::class,
 						[
 								'label' => 'Student Mobile',
 								'required' => true,
@@ -49,11 +49,12 @@ class StudentType extends AbstractType
 										'minlength' => 5,
 								]
 						])
-//            ->add('avatar', FileType::class,
-//						[
-//								'label' => "Student Avatar",
-//								'require' => false,
-//						])
+            ->add('avatar', FileType::class,
+						[
+								'label' => "Student Avatar",
+								'data_class' => null,
+								'required' => is_null($builder->getData()->getAvatar()),
+						])
 //            ->add('classrooms')
         ;
     }

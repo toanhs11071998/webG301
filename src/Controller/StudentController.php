@@ -5,10 +5,13 @@ namespace App\Controller;
 use App\Entity\Student;
 use App\Form\StudentType;
 use Doctrine\Persistence\ManagerRegistry;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use function PHPUnit\Framework\throwException;
 
 class StudentController extends AbstractController
 {
@@ -44,6 +47,7 @@ class StudentController extends AbstractController
 		}
 
 		/**
+		 * @IsGranted("ROLE_ADMIN")
 		 * @Route ("/students/create", name="student_create")
 		 */
 		public function create(Request $request): Response
@@ -53,6 +57,20 @@ class StudentController extends AbstractController
 			$form->handleRequest($request);
 
 			if ($form->isSubmitted() && $form->isValid()){
+				//update avatar
+				$avatar = $student->getAvatar();
+				$imgName = uniqid();
+				$imgExtension = $avatar->guessExtension();
+				$avatarName = $imgName . "." . $imgExtension;
+				try {
+					$avatar->move(
+							$this->getParameter('student_avatar'), $avatarName
+					);
+				} catch (FileException $e) {
+					throwException($e);
+				}
+				$student->setAvatar($avatarName);
+
 				$manager  = $this->doctrine->getManager();
 				$manager->persist($student);
 				$manager->flush();
@@ -66,6 +84,7 @@ class StudentController extends AbstractController
 		}
 
 		/**
+		 * @IsGranted("ROLE_ADMIN")
 		 * @Route ("/students/edit/{id}", name="student_edit")
 		 */
 		public function edit(Request $request, $id): \Symfony\Component\HttpFoundation\RedirectResponse|Response
@@ -80,6 +99,22 @@ class StudentController extends AbstractController
 			$form->handleRequest($request);
 
 			if ($form->isSubmitted() && $form->isValid()){
+				//update avatar
+				$file = $form['avatar']->getData();
+				if($file != null) {
+					$avatar = $student->getAvatar();
+					$imgName = uniqid();
+					$imgExtension = $avatar->guessExtension();
+					$avatarName = $imgName . "." . $imgExtension;
+					try {
+						$avatar->move(
+								$this->getParameter('student_avatar'), $avatarName
+						);
+					} catch (FileException $e) {
+						throwException($e);
+					}
+					$student->setAvatar($avatarName);
+				}
 				$manager  = $this->doctrine->getManager();
 				$manager->persist($student);
 				$manager->flush();
@@ -93,6 +128,7 @@ class StudentController extends AbstractController
 		}
 
 		/**
+		 * @IsGranted("ROLE_ADMIN")
 		 * @Route ("/students/delete/{id}", name="student_delete")
 		 */
 		public function delete($id)

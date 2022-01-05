@@ -28,6 +28,7 @@
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
+    {% block nav %}
     <header class="main-header">
         <!-- Logo -->
         <a href="{{ path('home') }}" class="logo">
@@ -49,29 +50,30 @@
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
                     <!-- User Account: style can be found in dropdown.less -->
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="{{ asset('images/default-avatar.png') }}" class="user-image" alt="User Image">
-                            <span class="hidden-xs">Alexander Pierce</span>
+                            <span class="hidden-xs">{{ app.user.username }}</span>
+
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
                                 <img src="{{ asset('images/default-avatar.png') }}" class="img-circle" alt="User Image">
-
-                                <p>
-                                    Alexander Pierce - Web Developer
-                                    <small>Member since Nov. 2012</small>
-                                </p>
+                                <p>{{ app.user.username }}</p>
                             </li>
                             <!-- Menu Footer-->
                             <li class="user-footer">
                                 <div class="pull-right">
-                                    <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                    <a href="{{ path('app_logout') }}" class="btn btn-default btn-flat">Sign out</a>
                                 </div>
                             </li>
                         </ul>
                     </li>
+                    {% endif %}
+
                     <!-- Control Sidebar Toggle Button -->
                 </ul>
             </div>
@@ -81,16 +83,6 @@
     <aside class="main-sidebar">
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
-            <!-- Sidebar user panel -->
-            <div class="user-panel">
-                <div class="pull-left image">
-                    <img src="{{ asset('images/default-avatar.png') }}" class="img-circle" alt="User Image">
-                </div>
-                <div class="pull-left info">
-                    <p>Alexander Pierce</p>
-                    <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-                </div>
-            </div>
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu" data-widget="tree">
                 <li class="header">MAIN NAVIGATION</li>
@@ -103,7 +95,9 @@
                     </a>
                     <ul class="treeview-menu">
                         <li><a href="{{ path('student_index') }}"><i class="fa fa-circle-o"></i> List of Student</a></li>
+                        {% if is_granted('ROLE_ADMIN') %}
                         <li><a href="{{ path('student_create') }}"><i class="fa fa-circle-o"></i> Create Student</a></li>
+                        {% endif %}
                     </ul>
                 </li>
                 <li class="treeview">
@@ -115,7 +109,9 @@
                     </a>
                     <ul class="treeview-menu">
                         <li><a href="{{ path('classroom_index') }}"><i class="fa fa-circle-o"></i> List of Classroom</a></li>
+                        {% if is_granted('ROLE_ADMIN') %}
                         <li><a href="{{ path('classroom_create') }}"><i class="fa fa-circle-o"></i> Create Classroom</a></li>
+                        {% endif %}
                     </ul>
                 </li>
 
@@ -123,7 +119,7 @@
         </section>
         <!-- /.sidebar -->
     </aside>
-
+    {% endblock %}
     <div class="content-wrapper">
         <div id="message">
             {% block flash %}
