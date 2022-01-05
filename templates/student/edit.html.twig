@@ -50,6 +50,14 @@
                             }}
                         </div>
                         <div class="form-group">
+                            <label>Student Avatar</label>
+                            {{ form_widget (form.avatar,
+                                {
+                                    'attr' : {'class' : 'form-control'}
+                                })
+                            }}
+                        </div>
+                        <div class="form-group">
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                         {{ form_end (form) }}

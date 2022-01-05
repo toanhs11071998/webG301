@@ -12,7 +12,7 @@
 
     <section class="content">
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-xs-9">
                 <div class="box box-info">
                     <div class="box-body">
                         {{ form_start (form) }}
@@ -44,6 +44,14 @@
                         <div class="form-group">
                             <label>Student Address</label>
                             {{ form_widget (form.address,
+                                {
+                                    'attr' : {'class' : 'form-control'}
+                                })
+                            }}
+                        </div>
+                        <div class="form-group">
+                            <label>Student Avatar</label>
+                            {{ form_widget (form.avatar,
                                 {
                                     'attr' : {'class' : 'form-control'}
                                 })

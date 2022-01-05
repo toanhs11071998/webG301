@@ -24,6 +24,7 @@
                                     <thead>
                                     <tr>
                                         <th>Student Name</th>
+                                        <th>Avatar</th>
                                         <th>Action</th>
                                     </tr>
                                     </thead>
@@ -35,6 +36,7 @@
                                         {% else %}
                                             <tr>
                                                 <td><a href="{{ path('student_detail',{ 'id': student.id}) }}">{{ student.fullname }}</a></td>
+                                                <td><img src="{{ asset('images/'~student.avatar) }}" alt="Student Image" width="100" height="100"></td>
                                                 <td>
                                                     <a href="{{ path('classroom_signStudent', {'class_id': class_student.id, 'student_id': student.id}) }}" class="btn btn-success">Add</a>
                                                 </td>
@@ -56,6 +58,7 @@
                                     <thead>
                                     <tr>
                                         <th>Student Name</th>
+                                        <th>Avatar</th>
                                         <th>Action</th>
                                     </tr>
                                     </thead>
@@ -63,6 +66,7 @@
                                     {% for student in class_student.students %}
                                         <tr>
                                             <td><a href="{{ path('student_detail',{ 'id': student.id}) }}">{{ student.fullname }}</a></td>
+                                            <td><img src="{{ asset('images/'~student.avatar) }}" alt="Student Image" width="100" height="100"></td>
                                             <td>
                                                 <a href="{{ path('classroom_removeStudent', {'class_id': class_student.id, 'student_id': student.id}) }}" class="btn btn-danger">Remove</a>
                                             </td>
