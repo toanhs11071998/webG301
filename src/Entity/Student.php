@@ -33,6 +33,9 @@ class Student
     #[ORM\ManyToMany(targetEntity: Classroom::class, mappedBy: 'students')]
     private $classrooms;
 
+    #[ORM\Column(type: 'smallint', length: 4)]
+    private $gender;
+
     public function __construct()
     {
         $this->classrooms = new ArrayCollection();
@@ -128,6 +131,18 @@ class Student
         if ($this->classrooms->removeElement($classroom)) {
             $classroom->removeStudent($this);
         }
+
+        return $this;
+    }
+
+    public function getGender(): ?string
+    {
+        return $this->gender;
+    }
+
+    public function setGender(string $gender): self
+    {
+        $this->gender = $gender;
 
         return $this;
     }

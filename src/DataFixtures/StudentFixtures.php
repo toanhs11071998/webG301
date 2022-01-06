@@ -16,6 +16,7 @@ class StudentFixtures extends Fixture
 					$student->setAddress("Hanoi");
 					$student->setMobile('0988777555');
 					$student->setDob(\DateTime::createFromFormat('Y-m-d', '2000-07-11'));
+					$student->setGender(1);
 					$student->setAvatar('default-avatar.png');
 					$manager->persist($student);
 				}

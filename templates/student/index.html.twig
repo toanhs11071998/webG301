@@ -21,7 +21,9 @@
                             <tr>
                                 <th>No</th>
                                 <th>Full name</th>
+                                <th>Gender</th>
                                 <th>DoB</th>
+                                <th>Age</th>
                                 <th>Mobile</th>
                                 <th>Address</th>
                                 <th>Avatar</th>
@@ -35,7 +37,17 @@
                             <tr>
                                 <td>{{ loop.index }}</td>
                                 <td>{{ student.fullname }}</td>
+                                <td>
+                                    {% if student.gender == 1 %}
+                                    Male
+                                    {% elseif student.gender == 2 %}
+                                    Female
+                                    {% else %}
+                                    Other
+                                    {% endif %}
+                                </td>
                                 <td>{{ student.dob |date('d-m-Y') }}</td>
+                                <td>{{ date('now').diff((student.dob)).format('%y') }}</td>
                                 <td>{{ student.mobile }}</td>
                                 <td>{{ student.address }}</td>
                                 <td><a href="{{ path('student_detail', {'id': student.id}) }}"><img src="{{ asset('images/'~student.avatar) }}" alt="Student Image" width="100" height="100"></a></td>
@@ -52,7 +64,9 @@
                             <tr>
                                 <th>No</th>
                                 <th>Full name</th>
+                                <th>Gender</th>
                                 <th>DoB</th>
+                                <th>Age</th>
                                 <th>Mobile</th>
                                 <th>Address</th>
                                 <th>Avatar</th>
@@ -71,7 +85,9 @@
     {% block javascripts %}
         <script>
             $(document).ready(function() {
-                $('#example1').DataTable()
+                $('#example1').DataTable({
+                    "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]]
+                })
             })
         </script>
     {% endblock %}
