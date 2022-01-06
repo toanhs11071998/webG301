@@ -18,16 +18,16 @@ class Classroom
     #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
+		#[ORM\Column(type: 'string', length: 50)]
+		private $class_code;
+
     #[ORM\ManyToMany(targetEntity: Student::class, inversedBy: 'classrooms')]
     private $students;
 
-    #[ORM\ManyToMany(targetEntity: Teacher::class, inversedBy: 'classrooms')]
-    private $teachers;
 
     public function __construct()
     {
         $this->students = new ArrayCollection();
-        $this->teachers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -46,6 +46,18 @@ class Classroom
 
         return $this;
     }
+
+		public function getClassCode(): ?string
+		{
+			return $this->class_code;
+		}
+
+		public function setClassCode(string $class_code): self
+		{
+			$this->class_code = $class_code;
+	
+			return $this;
+		}
 
     /**
      * @return Collection|Student[]
@@ -67,30 +79,6 @@ class Classroom
     public function removeStudent(Student $student): self
     {
         $this->students->removeElement($student);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Teacher[]
-     */
-    public function getTeachers(): Collection
-    {
-        return $this->teachers;
-    }
-
-    public function addTeacher(Teacher $teacher): self
-    {
-        if (!$this->teachers->contains($teacher)) {
-            $this->teachers[] = $teacher;
-        }
-
-        return $this;
-    }
-
-    public function removeTeacher(Teacher $teacher): self
-    {
-        $this->teachers->removeElement($teacher);
 
         return $this;
     }

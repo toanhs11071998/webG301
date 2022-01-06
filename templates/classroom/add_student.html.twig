@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add Student{% endblock %}
+
+{% block body %}
+
+    <section class="content-header">
+        <h1>
+            Add Student for class: {{ class_student.name }}
+        </h1>
+    </section>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="box box-primary">
+                            <div class="box-header">
+                                <h3>List of Student</h3>
+                            </div>
+                            <div class="box-body">
+                                <table id="unsigned-student" class="table table-bordered table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Student Name</th>
+                                        <th>Avatar</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% set continue = false %}
+                                    {% for student in students %}
+                                        {% if student.id in signed_id %}
+                                            {% set continue = true %}
+                                        {% else %}
+                                            <tr>
+                                                <td><a href="{{ path('student_detail',{ 'id': student.id}) }}">{{ student.fullname }}</a></td>
+                                                <td><img src="{{ asset('images/'~student.avatar) }}" alt="Student Image" width="100" height="100"></td>
+                                                <td>
+                                                    <a href="{{ path('classroom_signStudent', {'class_id': class_student.id, 'student_id': student.id}) }}" class="btn btn-success">Add</a>
+                                                </td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="box box-success">
+                            <div class="box-header">
+                                <h3>Signed Student</h3>
+                            </div>
+                            <div class="box-body">
+                                <table id="signed-student" class="table table-bordered table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Student Name</th>
+                                        <th>Avatar</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for student in class_student.students %}
+                                        <tr>
+                                            <td><a href="{{ path('student_detail',{ 'id': student.id}) }}">{{ student.fullname }}</a></td>
+                                            <td><img src="{{ asset('images/'~student.avatar) }}" alt="Student Image" width="100" height="100"></td>
+                                            <td>
+                                                <a href="{{ path('classroom_removeStudent', {'class_id': class_student.id, 'student_id': student.id}) }}" class="btn btn-danger">Remove</a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% block javascripts %}
+        <script>
+            $(document).ready(function() {
+                $('#unsigned-student').DataTable()
+                $('#signed-student').DataTable()
+            })
+        </script>
+    {% endblock %}
+{% endblock %}

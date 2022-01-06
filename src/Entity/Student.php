@@ -33,13 +33,12 @@ class Student
     #[ORM\ManyToMany(targetEntity: Classroom::class, mappedBy: 'students')]
     private $classrooms;
 
-    #[ORM\ManyToMany(targetEntity: Subject::class, mappedBy: 'students')]
-    private $subjects;
+    #[ORM\Column(type: 'smallint', length: 4)]
+    private $gender;
 
     public function __construct()
     {
         $this->classrooms = new ArrayCollection();
-        $this->subjects = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -95,14 +94,16 @@ class Student
         return $this;
     }
 
-    public function getAvatar(): ?string
+    public function getAvatar()
     {
         return $this->avatar;
     }
 
-    public function setAvatar(?string $avatar): self
+    public function setAvatar($avatar): self
     {
-        $this->avatar = $avatar;
+				if ($avatar != null){
+					$this->avatar = $avatar;
+				}
 
         return $this;
     }
@@ -134,29 +135,14 @@ class Student
         return $this;
     }
 
-    /**
-     * @return Collection|Subject[]
-     */
-    public function getSubjects(): Collection
+    public function getGender(): ?string
     {
-        return $this->subjects;
+        return $this->gender;
     }
 
-    public function addSubject(Subject $subject): self
+    public function setGender(string $gender): self
     {
-        if (!$this->subjects->contains($subject)) {
-            $this->subjects[] = $subject;
-            $subject->addStudent($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSubject(Subject $subject): self
-    {
-        if ($this->subjects->removeElement($subject)) {
-            $subject->removeStudent($this);
-        }
+        $this->gender = $gender;
 
         return $this;
     }

@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create Student{% endblock %}
+
+{% block body %}
+
+    <section class="content-header">
+        <h1>
+            Create Student
+        </h1>
+    </section>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-9">
+                <div class="box box-info">
+                    <div class="box-body">
+                        {{ form_start (form) }}
+                        <!-- text input -->
+                        <div class="form-group">
+                            <label>Student Name</label>
+                            {{ form_widget (form.full_name,
+                                {
+                                    'attr' : {'class' : 'form-control'}
+                                })
+                            }}
+                        </div>
+                        <div class="form-group">
+                            <label>Date of Birth</label>
+                            {{ form_widget (form.dob,
+                                {
+                                    'attr' : {'class' : 'form-control'}
+                                })
+                            }}
+                        </div>
+                        <div class="form-group">
+                            <label>Student Mobile</label>
+                            {{ form_widget (form.mobile,
+                                {
+                                    'attr' : {'class' : 'form-control'}
+                                })
+                            }}
+                        </div>
+                        <div class="form-group">
+                            <label>Student Address</label>
+                            {{ form_widget (form.address,
+                                {
+                                    'attr' : {'class' : 'form-control'}
+                                })
+                            }}
+                        </div>
+                        <div class="form-group">
+                            <label>Student Avatar</label>
+                            {{ form_widget (form.avatar,
+                                {
+                                    'attr' : {'class' : 'form-control'}
+                                })
+                            }}
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                        {{ form_end (form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% block javascripts %}
+
+    {% endblock %}
+{% endblock %}

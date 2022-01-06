@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}List of Student{% endblock %}
+
+{% block body %}
+
+    <section class="content-header">
+        <h1>
+            List of Student
+        </h1>
+    </section>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Full name</th>
+                                <th>Gender</th>
+                                <th>DoB</th>
+                                <th>Age</th>
+                                <th>Mobile</th>
+                                <th>Address</th>
+                                <th>Avatar</th>
+                                {% if is_granted('ROLE_ADMIN') %}
+                                <th>Action</th>
+                                {% endif %}
+                            </tr>
+                            </thead>
+                            <tbody>
+                             {% for student in students %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ student.fullname }}</td>
+                                <td>
+                                    {% if student.gender == 1 %}
+                                    Male
+                                    {% elseif student.gender == 2 %}
+                                    Female
+                                    {% else %}
+                                    Other
+                                    {% endif %}
+                                </td>
+                                <td>{{ student.dob |date('d-m-Y') }}</td>
+                                <td>{{ date('now').diff((student.dob)).format('%y') }}</td>
+                                <td>{{ student.mobile }}</td>
+                                <td>{{ student.address }}</td>
+                                <td><a href="{{ path('student_detail', {'id': student.id}) }}"><img src="{{ asset('images/'~student.avatar) }}" alt="Student Image" width="100" height="100"></a></td>
+                                {% if is_granted('ROLE_ADMIN') %}
+                                <td>
+                                    <a href="{{ path('student_edit', {'id': student.id}) }}" class="btn btn-warning">Edit</a>
+                                    <a href="{{ path('student_delete', {'id': student.id}) }}" class="btn btn-danger" onclick="return confirm('Do you want to delete this student?')">Delete</a>
+                                </td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th>No</th>
+                                <th>Full name</th>
+                                <th>Gender</th>
+                                <th>DoB</th>
+                                <th>Age</th>
+                                <th>Mobile</th>
+                                <th>Address</th>
+                                <th>Avatar</th>
+                                {% if is_granted('ROLE_ADMIN') %}
+                                <th>Action</th>
+                                {% endif %}
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+        </div>
+    </section>
+    {% block javascripts %}
+        <script>
+            $(document).ready(function() {
+                $('#example1').DataTable({
+                    "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]]
+                })
+            })
+        </script>
+    {% endblock %}
+{% endblock %}
