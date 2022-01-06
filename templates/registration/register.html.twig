@@ -40,9 +40,22 @@
         {{ form_row(registrationForm.plainPassword, {
             label: 'Password'
         }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
-
-        <button type="submit" class="btn">Register</button>
+        <div class="row">
+            <div class="col-xs-8">
+                <div class="checkbox mb-3">
+                    {{ form_row(registrationForm.agreeTerms, {
+                        'attr' : {
+                            'style' : 'margin-left: 5px'
+                        }
+                    }) }}
+                </div>
+            </div>
+            <!-- /.col -->
+            <div class="col-xs-4">
+                <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
+            </div>
+            <!-- /.col -->
+        </div>
         {{ form_end(registrationForm) }}
 
         <a href="{{ path('app_login') }}" class="text-center">I already have a membership</a>
